@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,9 +14,15 @@ public class CactusUI : MonoBehaviour
     private DayNightCycle dayNightCycle;
     [SerializeField] private Cactus cactus;
 
+    private StringBuilder waterStringBuilder;
+    private StringBuilder oxygenStringBuilder;
+
     private void Start()
     {
         dayNightCycle = DayNightCycle.Instance;
+
+        waterStringBuilder = new StringBuilder("Water Level: ");
+        oxygenStringBuilder = new StringBuilder("Oxygen Level: ");
 
         dayNightCycle.OnDayStarted += UpdateDayNightText;
         dayNightCycle.OnNightStarted += UpdateDayNightText;
@@ -34,9 +41,30 @@ public class CactusUI : MonoBehaviour
     void Update()
     {
         //dayNightText.text = !dayNightCycle.IsDay() ? "Night" : "Day";
-       // dayText.text = "Day: " + dayNightCycle.daysCounter;
-        waterText.text = "Water Level: " + Mathf.RoundToInt(cactus.water) + "%";
-        oxygenText.text = "Oxygen Level: " + Mathf.RoundToInt(cactus.oxygen) + "%";
+        // dayText.text = "Day: " + dayNightCycle.daysCounter;
+
+        updateWaterText();
+        updateOxygenText();
+        //waterText.text = "Water Level: " + Mathf.RoundToInt(cactus.water) + "%";
+       // oxygenText.text = "Oxygen Level: " + Mathf.RoundToInt(cactus.oxygen) + "%";
+    }
+
+    private void updateOxygenText()
+    {
+        waterStringBuilder.Length = 0;  
+        waterStringBuilder.Append("Water Level: ");
+        waterStringBuilder.Append(Mathf.RoundToInt(cactus.water));
+        waterStringBuilder.Append("%");
+        waterText.text = waterStringBuilder.ToString();
+    }
+
+    private void updateWaterText()
+    {
+        oxygenStringBuilder.Length = 0;
+        oxygenStringBuilder.Append("Oxygen Level: ");
+        oxygenStringBuilder.Append(Mathf.RoundToInt(cactus.oxygen));
+        oxygenStringBuilder.Append("%");
+        oxygenText.text = oxygenStringBuilder.ToString();
     }
 
     private void UpdateDayNightText()

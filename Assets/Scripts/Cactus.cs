@@ -13,7 +13,7 @@ public class Cactus : MonoBehaviour
     private SkinnedMeshRenderer skinnedMeshRenderer;
     private Animator animator;
 
-    public DayNightCycle dayNightCycle;
+    private DayNightCycle dayNightCycle;
 
     private int spikesIndex = 0;
     private int flowerIndex = 1;
@@ -56,8 +56,15 @@ public class Cactus : MonoBehaviour
     private void Update()
     {
         oxygenLevel();
-        reduceWater();
-
+        
+        
+        //reduceWater();
+        waterTimer += Time.deltaTime;
+        if (waterTimer >= interval)
+        {
+            reduceWater();
+        }
+        
         CheckCactusState();
     }
 
@@ -164,14 +171,14 @@ public class Cactus : MonoBehaviour
 
     private void reduceWater()
     {
-        waterTimer += Time.deltaTime;
-        if (waterTimer >= interval)
-        {
+        //waterTimer += Time.deltaTime;
+        //if (waterTimer >= interval)
+       // {
             //water -= water * Random.Range(0.01f, 0.05f);
             water -= Random.Range(1f, 5f); 
             water = Mathf.Max(water, 0f);
             waterTimer = 0f;
-        }
+       // }
     }
 
   
@@ -180,7 +187,7 @@ public class Cactus : MonoBehaviour
         if (water <= 0f || oxygen <= 0f)
         {
             cactusRenderer.material.color = Color.gray;
-            Debug.Log("cactus died");
+          //  Debug.Log("cactus died");
             setCactusFace(sadOffset);
             Time.timeScale = 0; //stop the scene
             cactusDieText.gameObject.SetActive(true);
@@ -196,7 +203,12 @@ public class Cactus : MonoBehaviour
         {
             water = 100;
         }
+    }
 
+    internal void afterWater()
+    {
+        waterEffect.Stop();
+        waterEffect.Clear();
     }
 
     internal void TogglePetals()

@@ -295,6 +295,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -258621723893261042, guid: 0fdec5d28f1cb5142987d9526ae4fa7a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 67cced34f7254c546835404db45b8f8c, type: 2}
     - target: {fileID: 919132149155446097, guid: 0fdec5d28f1cb5142987d9526ae4fa7a, type: 3}
       propertyPath: m_Name
       value: Cactus
@@ -865,7 +869,7 @@ MonoBehaviour:
   oxygen: 100
   cactusRenderer: {fileID: 234970440877400990}
   waterEffect: {fileID: 1450477565}
-  dayNightCycle: {fileID: 1566240620}
+  petalsOpen: 0
   cactusDieText: {fileID: 1886179310}
 --- !u!1 &1158409174
 GameObject:
@@ -6374,7 +6378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sunLight: {fileID: 705507994}
-  dayDuration: 60
+  dayDuration: 30
   state: 0
   daysCounter: 1
   cactus: {fileID: 971038012}
