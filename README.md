@@ -73,11 +73,5 @@ Created by [Noy Chen](https://github.com/NoyChen1), a Unity developer passionate
 
 ## 🎥 Demo
 
-<video controls width="100%">
-   <source src="media/demo.mp4" type="video/mp4">
-   Your browser does not support the video tag.
-</video>
+[Click here to watch the video]([media/demo.mp4](https://youtu.be/_hg1RfpmOCM))
 
-
-video:
-https://drive.google.com/file/d/1x8LoPxi-qKH_CSlAYcF0KhoioTpsmCH7/view?usp=sharing
