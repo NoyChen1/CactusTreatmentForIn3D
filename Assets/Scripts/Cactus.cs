@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +31,9 @@ public class Cactus : MonoBehaviour
 
     [SerializeField] private Text cactusDieText;
 
+    public Action<float> OnWaterChanged;
+    public Action<float> OnOxygenChanged;
+
     public enum State
     {
         Sad,
@@ -38,6 +42,8 @@ public class Cactus : MonoBehaviour
 
     void Start()
     {
+        OnWaterChanged?.Invoke(water);
+        OnOxygenChanged?.Invoke(oxygen);
 
         animator = cactusRenderer.GetComponent<Animator>();
         dayNightCycle = DayNightCycle.Instance;
@@ -56,25 +62,26 @@ public class Cactus : MonoBehaviour
     private void Update()
     {
         oxygenLevel();
-        
-        
-        //reduceWater();
-        waterTimer += Time.deltaTime;
-        if (waterTimer >= interval)
-        {
-            reduceWater();
-        }
+        waterLevel();
         
         CheckCactusState();
     }
 
+    private void waterLevel()
+    {
+        waterTimer += Time.deltaTime;
+        if (waterTimer >= interval && dayNightCycle.IsDay())
+        {
+            reduceWater();
+        }
+    }
 
     public void SunshineEffect()
     {
 
         oxygenLvl = 100 - oxygen; //the amount of oxygen the flower needs to increase in this specific day
         // Attempt to open petals with a 75% success rate
-        if (Random.value <= 0.75f)
+        if (UnityEngine.Random.value <= 0.75f)
         {
             animate(true, false);
            
@@ -100,7 +107,7 @@ public class Cactus : MonoBehaviour
     {
 
         // Attempt to close petals with a 75% success rate
-        if (Random.value <= 0.75f)
+        if (UnityEngine.Random.value <= 0.75f)
         {
             animate(false, false);
 
@@ -155,6 +162,7 @@ public class Cactus : MonoBehaviour
         float oxygenToIncrease = oxygenLvl / (dayNightCycle.dayDuration / 2);
         float num = oxygen + (oxygenToIncrease * Time.deltaTime);
         oxygen = Mathf.Min(num, 100f);
+        OnOxygenChanged?.Invoke(oxygen); // Trigger event
     }
 
     private void reduceOxygen(float rate)
@@ -162,32 +170,27 @@ public class Cactus : MonoBehaviour
         oxygenTimer += Time.deltaTime;
         if (oxygenTimer >= interval)
         {
-            //oxygen -= oxygen * (rate / 100);
             oxygen -= rate;
             oxygen = Mathf.Max(oxygen, 0f);
             oxygenTimer = 0f;
+            OnOxygenChanged?.Invoke(oxygen); // Trigger event
         }
     }
 
     private void reduceWater()
     {
-        //waterTimer += Time.deltaTime;
-        //if (waterTimer >= interval)
-       // {
-            //water -= water * Random.Range(0.01f, 0.05f);
-            water -= Random.Range(1f, 5f); 
-            water = Mathf.Max(water, 0f);
-            waterTimer = 0f;
-       // }
+        water -= UnityEngine.Random.Range(1f, 5f); 
+        water = Mathf.Max(water, 0f);
+        waterTimer = 0f;
+        OnWaterChanged?.Invoke(water); // Trigger event
     }
 
-  
+
     private void CheckCactusState()
     {
         if (water <= 0f || oxygen <= 0f)
         {
             cactusRenderer.material.color = Color.gray;
-          //  Debug.Log("cactus died");
             setCactusFace(sadOffset);
             Time.timeScale = 0; //stop the scene
             cactusDieText.gameObject.SetActive(true);
@@ -198,11 +201,11 @@ public class Cactus : MonoBehaviour
     {
         waterEffect.Play();
         water *= 1.3f;
-        //water = Mathf.Min(water, 100);
         if (water > 100)
         {
             water = 100;
         }
+        OnWaterChanged?.Invoke(water); // Trigger event
     }
 
     internal void afterWater()

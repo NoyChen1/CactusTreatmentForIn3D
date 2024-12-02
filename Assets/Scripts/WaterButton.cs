@@ -18,7 +18,6 @@ public class WaterButton : MonoBehaviour
         cactus.WaterCactus();
         waterButton.interactable = false;
         StartCoroutine(ReenableButtonAfterDelay(2f));
-       // cactus.afterWater();
     }
 
     private IEnumerator ReenableButtonAfterDelay(float delay)
