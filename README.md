@@ -69,12 +69,4 @@ A Unity-based simulation game created for in3D Tech's Unity Developer entry exam
 [Click here to watch the video](https://youtu.be/_hg1RfpmOCM)
 
 
----
-
-
-## 🙋‍♀️ About the Developer
-
-Created by [Noy Chen](https://github.com/NoyChen1), a Unity developer passionate about creating immersive and interactive experiences. Let's connect on [GitHub](https://github.com/NoyChen1)!
-
-
 
